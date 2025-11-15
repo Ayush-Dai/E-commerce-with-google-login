@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Sidebar from "@/Components/Admin/Sidebar"
 import { Outlet } from "react-router-dom"
+//this is the change made in  the dev  branch
 
 export default function Admin() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
