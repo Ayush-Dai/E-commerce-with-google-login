@@ -67,10 +67,7 @@ function SignIn() {
         }
 
     })
-
-
-
-
+    
 
     const responseGoogle = async (authResult) => {
 
