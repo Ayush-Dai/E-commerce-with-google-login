@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { allproductsApi, addProductApi, editProductApi,deleteProductApi } from "../../../APIs/GoogleApi"
 import axios from "axios"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/Components/ui/button"
+import { Input } from "@/Components/ui/input"
+import { Textarea } from "@/Components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog"
+import { Label } from "@/Components/ui/label"
 import { PlusCircle, Pencil, Loader2, Trash2 } from "lucide-react"
 import iziToast from "izitoast"
 import "izitoast/dist/css/iziToast.min.css"
@@ -20,7 +20,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/Components/ui/alert-dialog"
 
 export default function ProductManagement() {
   const [products, setProducts] = useState([])

@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/Components/ui/dialog"
+import { Button } from "@/Components/ui/button"
 import { Minus, Plus, ShoppingBag } from "lucide-react"
 import { createOrderApi } from "../../APIs/GoogleApi"
 import iziToast from "izitoast"
