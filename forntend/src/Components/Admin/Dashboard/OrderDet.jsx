@@ -1,41 +1,41 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { getAllOrder } from "../../../APIs/GoogleApi"
+import { useEffect, useState } from 'react';
+import { getAllOrder } from '../../../APIs/GoogleApi';
 
 function OrderDet() {
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchOrders()
-  }, [])
+    fetchOrders();
+  }, []);
 
   const fetchOrders = async () => {
     try {
-      const response = await getAllOrder()
+      const response = await getAllOrder();
       if (response?.data?.success) {
-        setOrders(response.data.orders)
+        setOrders(response.data.orders);
       } else {
-        console.error("Failed to fetch orders", response.data)
+        console.error('Failed to fetch orders', response.data);
       }
     } catch (error) {
-      console.error("Error fetching orders:", error)
+      console.error('Error fetching orders:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const formatDate = (dateString) => {
     const options = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-    return new Date(dateString).toLocaleDateString(undefined, options)
-  }
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   if (loading) {
     return (
@@ -45,7 +45,7 @@ function OrderDet() {
           <p className="mt-4 text-lg font-medium text-gray-700">Loading orders...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (orders.length === 0) {
@@ -68,7 +68,7 @@ function OrderDet() {
         <p className="text-xl font-semibold text-gray-700">No orders found</p>
         <p className="text-gray-500 mt-2">Orders will appear here once they are placed</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -90,20 +90,26 @@ function OrderDet() {
                   <div>
                     <div className="flex items-center gap-3">
                       <h3 className="font-semibold text-lg text-gray-800">OrderId #{order._id}</h3>
-                     
                     </div>
                     <p className="text-gray-500 text-sm mt-1">
-                      Placed by <span className="font-medium text-gray-700">{order.user?.name || "Unknown"}</span>
+                      Placed by{' '}
+                      <span className="font-medium text-gray-700">
+                        {order.user?.name || 'Unknown'}
+                      </span>
                     </p>
                   </div>
                   <div className="flex flex-col items-end">
-                    <div className="text-2xl font-bold text-gray-800">Rs. {order.totalAmount.toLocaleString()}</div>
+                    <div className="text-2xl font-bold text-gray-800">
+                      Rs. {order.totalAmount.toLocaleString()}
+                    </div>
                     <div className="text-sm text-gray-500">{formatDate(order.createdAt)}</div>
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Order Items</h4>
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                    Order Items
+                  </h4>
                   <div className="bg-gray-50 rounded-lg overflow-hidden">
                     <div className="divide-y divide-gray-200">
                       {order.products.map((item, index) => (
@@ -115,7 +121,9 @@ function OrderDet() {
                             {index + 1}
                           </div>
                           <div className="ml-4 flex-grow">
-                            <p className="font-medium text-gray-800">{item.product?.name || "Product Unavailable"}</p>
+                            <p className="font-medium text-gray-800">
+                              {item.product?.name || 'Product Unavailable'}
+                            </p>
                           </div>
                           <div className="text-gray-700 font-medium">x{item.quantity}</div>
                         </div>
@@ -135,7 +143,7 @@ function OrderDet() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default OrderDet
+export default OrderDet;

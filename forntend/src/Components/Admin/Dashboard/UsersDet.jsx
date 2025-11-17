@@ -1,8 +1,15 @@
-import { useEffect, useState } from "react"
-import { allUsersApi, deleteUserApi } from "../../../APIs/GoogleApi"
-import { Button } from "@/Components/ui/button"
-import { Input } from "@/Components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
+import { useEffect, useState } from 'react';
+import { allUsersApi, deleteUserApi } from '../../../APIs/GoogleApi';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/Components/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,69 +20,69 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/Components/ui/alert-dialog"
-import { Badge } from "@/Components/ui/badge"
-import { Search, Trash2, UserCog } from "lucide-react"
-import { Skeleton } from "@/Components/ui/skeleton"
+} from '@/Components/ui/alert-dialog';
+import { Badge } from '@/Components/ui/badge';
+import { Search, Trash2, UserCog } from 'lucide-react';
+import { Skeleton } from '@/Components/ui/skeleton';
 
 export default function UserManagement() {
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [userToDelete, setUserToDelete] = useState(null)
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await allUsersApi()
+        const response = await allUsersApi();
         if (response.status === 200) {
-          const sortedUsers = response.data.Users.sort((a, b) => a.name.localeCompare(b.name))
-          setUsers(sortedUsers)
+          const sortedUsers = response.data.Users.sort((a, b) => a.name.localeCompare(b.name));
+          setUsers(sortedUsers);
         } else {
-          console.error("Failed to fetch Users", response)
+          console.error('Failed to fetch Users', response);
         }
       } catch (e) {
-        console.error("Error fetching Users:", e)
+        console.error('Error fetching Users:', e);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, []);
 
   const handleDelete = async (userId) => {
     try {
-      const response = await deleteUserApi(userId)
+      const response = await deleteUserApi(userId);
       if (response.status === 200) {
-        setUsers((prev) => prev.filter((user) => user._id !== userId))
+        setUsers((prev) => prev.filter((user) => user._id !== userId));
       } else {
-        console.error("Failed to delete user", response)
+        console.error('Failed to delete user', response);
       }
     } catch (error) {
-      console.error("Error deleting user:", error)
+      console.error('Error deleting user:', error);
     }
-  }
+  };
 
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.role.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  );
 
   const getRoleBadgeColor = (role) => {
     switch (role.toLowerCase()) {
-      case "admin":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
-      case "manager":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-      case "user":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+      case 'admin':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case 'manager':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+      case 'user':
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
-  }
+  };
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 transition-all">
@@ -160,10 +167,12 @@ export default function UserManagement() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure you want to delete this user?</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            Are you sure you want to delete this user?
+                          </AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the user account for{" "}
-                            <span className="font-semibold">{userToDelete?.name}</span>.
+                            This action cannot be undone. This will permanently delete the user
+                            account for <span className="font-semibold">{userToDelete?.name}</span>.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -182,8 +191,11 @@ export default function UserManagement() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-gray-500 dark:text-gray-400">
-                  {searchTerm ? "No users found matching your search." : "No users available."}
+                <TableCell
+                  colSpan={5}
+                  className="h-24 text-center text-gray-500 dark:text-gray-400"
+                >
+                  {searchTerm ? 'No users found matching your search.' : 'No users available.'}
                 </TableCell>
               </TableRow>
             )}
@@ -197,5 +209,5 @@ export default function UserManagement() {
         </div>
       )}
     </div>
-  )
+  );
 }

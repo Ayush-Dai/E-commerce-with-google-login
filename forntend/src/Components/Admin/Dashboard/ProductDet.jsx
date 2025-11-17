@@ -1,16 +1,34 @@
-import { useEffect, useState } from "react"
-import { allproductsApi, addProductApi, editProductApi,deleteProductApi } from "../../../APIs/GoogleApi"
-import axios from "axios"
-import { Button } from "@/Components/ui/button"
-import { Input } from "@/Components/ui/input"
-import { Textarea } from "@/Components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog"
-import { Label } from "@/Components/ui/label"
-import { PlusCircle, Pencil, Loader2, Trash2 } from "lucide-react"
-import iziToast from "izitoast"
-import "izitoast/dist/css/iziToast.min.css"
+import { useEffect, useState } from 'react';
+import {
+  allproductsApi,
+  addProductApi,
+  editProductApi,
+  deleteProductApi,
+} from '../../../APIs/GoogleApi';
+import axios from 'axios';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Textarea } from '@/Components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/Components/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/Components/ui/dialog';
+import { Label } from '@/Components/ui/label';
+import { PlusCircle, Pencil, Loader2, Trash2 } from 'lucide-react';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,179 +38,179 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/Components/ui/alert-dialog"
+} from '@/Components/ui/alert-dialog';
 
 export default function ProductManagement() {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [showAddForm, setShowAddForm] = useState(false)
-  const [showEditForm, setShowEditForm] = useState(false)
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [currentProduct, setCurrentProduct] = useState(null)
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
 
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
+    name: '',
+    description: '',
+    price: '',
     image: null,
-  })
+  });
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   const fetchProducts = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await allproductsApi()
+      const response = await allproductsApi();
       if (response.status === 200) {
-        const sorted = response.data.products.sort((a, b) => a.name.localeCompare(b.name))
-        setProducts(sorted)
+        const sorted = response.data.products.sort((a, b) => a.name.localeCompare(b.name));
+        setProducts(sorted);
       }
     } catch (error) {
-      console.error("Error fetching products:", error)
+      console.error('Error fetching products:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleFormChange = (e) => {
-    const { name, value, files } = e.target
+    const { name, value, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "image" ? files?.[0] || null : value,
-    }))
-  }
+      [name]: name === 'image' ? files?.[0] || null : value,
+    }));
+  };
 
   const resetForm = () => {
     setFormData({
-      name: "",
-      description: "",
-      price: "",
+      name: '',
+      description: '',
+      price: '',
       image: null,
-    })
-    setCurrentProduct(null)
-  }
+    });
+    setCurrentProduct(null);
+  };
 
   const handleAddFormSubmit = async (e) => {
-    e.preventDefault()
-    setSubmitting(true)
+    e.preventDefault();
+    setSubmitting(true);
 
     try {
-      const data = new FormData()
-      data.append("name", formData.name)
-      data.append("description", formData.description)
-      data.append("price", formData.price)
-      data.append("image", formData.image)
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('description', formData.description);
+      data.append('price', formData.price);
+      data.append('image', formData.image);
 
-      const res = await addProductApi(data)
+      const res = await addProductApi(data);
       if (res.status === 201) {
-        fetchProducts()
-        setShowAddForm(false)
-        resetForm()
+        fetchProducts();
+        setShowAddForm(false);
+        resetForm();
         iziToast.success({
-          title: "Success",
-          message: "Product added successfully",
-          position: "topRight",
-        })
+          title: 'Success',
+          message: 'Product added successfully',
+          position: 'topRight',
+        });
       }
     } catch (error) {
-      console.error("Error adding product:", error)
+      console.error('Error adding product:', error);
       iziToast.error({
-        title: "Error",
-        message: "Failed to add product",
-        position: "topRight",
-      })
+        title: 'Error',
+        message: 'Failed to add product',
+        position: 'topRight',
+      });
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const handleEditFormSubmit = async (e) => {
-    e.preventDefault()
-    if (!currentProduct) return
-    setSubmitting(true)
+    e.preventDefault();
+    if (!currentProduct) return;
+    setSubmitting(true);
     console.log(currentProduct);
     console.log(formData);
 
     try {
-      const data = new FormData()
-      data.append("name", formData.name)
-      data.append("description", formData.description)
-      data.append("price", formData.price)
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('description', formData.description);
+      data.append('price', formData.price);
       if (formData.image instanceof File) {
-        data.append("image", formData.image)
+        data.append('image', formData.image);
       }
 
-      const res = await editProductApi(currentProduct._id,formData)
+      const res = await editProductApi(currentProduct._id, formData);
       if (res.status === 200) {
-        fetchProducts()
-        setShowEditForm(false)
-        resetForm()
+        fetchProducts();
+        setShowEditForm(false);
+        resetForm();
         iziToast.success({
-          title: "Success",
-          message: "Product updated successfully",
-          position: "topRight",
-        })
+          title: 'Success',
+          message: 'Product updated successfully',
+          position: 'topRight',
+        });
       }
     } catch (error) {
-      console.error("Error updating product:", error)
+      console.error('Error updating product:', error);
       iziToast.error({
-        title: "Error",
-        message: "Failed to update product",
-        position: "topRight",
-      })
+        title: 'Error',
+        message: 'Failed to update product',
+        position: 'topRight',
+      });
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const handleDeleteProduct = async () => {
-    if (!currentProduct) return
-    setSubmitting(true)
+    if (!currentProduct) return;
+    setSubmitting(true);
     try {
       const res = await deleteProductApi(currentProduct._id);
       if (res.status === 200) {
-        fetchProducts()
-        setShowDeleteAlert(false)
-        setShowEditForm(false)
-        resetForm()
+        fetchProducts();
+        setShowDeleteAlert(false);
+        setShowEditForm(false);
+        resetForm();
         iziToast.success({
-          title: "Deleted",
-          message: "Product deleted successfully",
-          position: "topRight",
-        })
+          title: 'Deleted',
+          message: 'Product deleted successfully',
+          position: 'topRight',
+        });
       }
     } catch (error) {
-      console.error("Error deleting product:", error)
+      console.error('Error deleting product:', error);
       iziToast.error({
-        title: "Error",
-        message: "Failed to delete product",
-        position: "topRight",
-      })
+        title: 'Error',
+        message: 'Failed to delete product',
+        position: 'topRight',
+      });
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const openEditForm = (product) => {
-    setCurrentProduct(product)
+    setCurrentProduct(product);
     setFormData({
       name: product.name,
       description: product.description,
       price: product.price,
       image: null,
-    })
-    setShowEditForm(true)
-  }
+    });
+    setShowEditForm(true);
+  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   return (
@@ -212,15 +230,46 @@ export default function ProductManagement() {
                 <DialogTitle>Add New Product</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddFormSubmit} className="space-y-4 pt-4">
-                <Input label="Product Name" name="name" value={formData.name} onChange={handleFormChange} required placeholder="Enter product name" />
-                <Textarea label="Description" name="description" value={formData.description} onChange={handleFormChange} required placeholder="Enter description" />
-                <Input label="Price (Rs.)" name="price" type="number" value={formData.price} onChange={handleFormChange} required placeholder="Enter price" />
-                <Input label="Product Image" name="image" type="file" accept="image/*" onChange={handleFormChange} required />
+                <Input
+                  label="Product Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  required
+                  placeholder="Enter product name"
+                />
+                <Textarea
+                  label="Description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleFormChange}
+                  required
+                  placeholder="Enter description"
+                />
+                <Input
+                  label="Price (Rs.)"
+                  name="price"
+                  type="number"
+                  value={formData.price}
+                  onChange={handleFormChange}
+                  required
+                  placeholder="Enter price"
+                />
+                <Input
+                  label="Product Image"
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFormChange}
+                  required
+                />
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setShowAddForm(false)}>Cancel</Button>
+                  <Button type="button" variant="outline" onClick={() => setShowAddForm(false)}>
+                    Cancel
+                  </Button>
                   <Button type="submit" disabled={submitting} className="gap-1">
                     {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                    {submitting ? "Submitting..." : "Add Product"}
+                    {submitting ? 'Submitting...' : 'Add Product'}
                   </Button>
                 </div>
               </form>
@@ -242,7 +291,9 @@ export default function ProductManagement() {
           <TableBody>
             {products.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center">No products found.</TableCell>
+                <TableCell colSpan={5} className="text-center">
+                  No products found.
+                </TableCell>
               </TableRow>
             ) : (
               products.map((product, index) => (
@@ -250,7 +301,9 @@ export default function ProductManagement() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>Rs. {product.price}</TableCell>
-                  <TableCell className="hidden md:table-cell truncate">{product.description}</TableCell>
+                  <TableCell className="hidden md:table-cell truncate">
+                    {product.description}
+                  </TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm" onClick={() => openEditForm(product)}>
                       <Pencil className="h-4 w-4" />
@@ -264,24 +317,57 @@ export default function ProductManagement() {
       </CardContent>
 
       {/* Edit Product Dialog */}
-      <Dialog open={showEditForm} onOpenChange={(open) => { setShowEditForm(open); if (!open) resetForm() }}>
+      <Dialog
+        open={showEditForm}
+        onOpenChange={(open) => {
+          setShowEditForm(open);
+          if (!open) resetForm();
+        }}
+      >
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Edit Product</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleEditFormSubmit} className="space-y-4 pt-4">
-            <Input label="Product Name" name="name" value={formData.name} onChange={handleFormChange} required />
-            <Textarea label="Description" name="description" value={formData.description} onChange={handleFormChange} required />
-            <Input label="Price (Rs.)" name="price" type="number" value={formData.price} onChange={handleFormChange} required />
+            <Input
+              label="Product Name"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              required
+            />
+            <Textarea
+              label="Description"
+              name="description"
+              value={formData.description}
+              onChange={handleFormChange}
+              required
+            />
+            <Input
+              label="Price (Rs.)"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleFormChange}
+              required
+            />
             <Input name="image" type="file" accept="image/*" onChange={handleFormChange} />
-            <p className="text-sm text-muted-foreground">{currentProduct?.image ? "Leave empty to keep current image" : "No image currently set"}</p>
+            <p className="text-sm text-muted-foreground">
+              {currentProduct?.image
+                ? 'Leave empty to keep current image'
+                : 'No image currently set'}
+            </p>
             <div className="flex justify-between pt-2">
-              <Button type="button" variant="destructive" onClick={() => setShowDeleteAlert(true)}>Delete</Button>
+              <Button type="button" variant="destructive" onClick={() => setShowDeleteAlert(true)}>
+                Delete
+              </Button>
               <div className="flex gap-2">
-                <Button variant="outline" type="button" onClick={() => setShowEditForm(false)}>Cancel</Button>
+                <Button variant="outline" type="button" onClick={() => setShowEditForm(false)}>
+                  Cancel
+                </Button>
                 <Button type="submit" disabled={submitting} className="gap-1">
                   {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                  {submitting ? "Updating..." : "Update"}
+                  {submitting ? 'Updating...' : 'Update'}
                 </Button>
               </div>
             </div>
@@ -294,16 +380,18 @@ export default function ProductManagement() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>This will permanently delete "{currentProduct?.name}".</AlertDialogDescription>
+            <AlertDialogDescription>
+              This will permanently delete "{currentProduct?.name}".
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteProduct} disabled={submitting}>
-              {submitting ? "Deleting..." : "Delete"}
+              {submitting ? 'Deleting...' : 'Delete'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </Card>
-  )
+  );
 }

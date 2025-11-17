@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logoutApi } from '../../../APIs/GoogleApi';
-import Avatar from './Avatar'
+import Avatar from './Avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-
+} from '../../ui/dropdown-menu';
 
 const UseAvatar = () => {
   const [user, setUserInfo] = useState(null);
@@ -29,19 +28,14 @@ const UseAvatar = () => {
       window.dispatchEvent(new Event('auth-success'));
       navigate('/signin');
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error('Logout failed:', error);
     }
   };
-
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
-        <Avatar
-          src={user?.image}
-          name={user?.name}
-          size="md"
-        />
+        <Avatar src={user?.image} name={user?.name} size="md" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg border border-gray-200 ">
         <DropdownMenuLabel>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   BarChart3,
   Home,
@@ -7,15 +7,15 @@ import {
   Package,
   Settings,
   HelpCircle,
-  X
-} from "lucide-react";
-import { Button } from "@/Components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
+  X,
+} from 'lucide-react';
+import { Button } from '@/Components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function SidebarItem({ icon: Icon, text, active, onClick }) {
   return (
     <Button
-      variant={active ? "secondary" : "ghost"}
+      variant={active ? 'secondary' : 'ghost'}
       className="w-full justify-start"
       onClick={onClick}
     >
@@ -32,7 +32,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
     <div
       className={`absolute left-0 z-50 w-64 h-[90vh] bg-white dark:bg-gray-800 transform ${
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0 transition-transform duration-300 ease-in-out`}
     >
       <div className="flex items-center justify-between h-16 px-4 border-b dark:border-gray-700">
@@ -55,28 +55,27 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <SidebarItem
           icon={Home}
           text="Dashboard"
-          active={location.pathname === "/admin"}
-          onClick={() => navigate("/admin")}
+          active={location.pathname === '/admin'}
+          onClick={() => navigate('/admin')}
         />
         <SidebarItem
           icon={Users}
           text="Users"
-          active={location.pathname === "/admin/manageUsers"}
-          onClick={() => navigate("/admin/manageUsers")}
+          active={location.pathname === '/admin/manageUsers'}
+          onClick={() => navigate('/admin/manageUsers')}
         />
         <SidebarItem
           icon={ShoppingCart}
           text="Orders"
-          active={location.pathname === "/admin/manageProducts"}
-          onClick={() => navigate("/admin/manageProducts")}
+          active={location.pathname === '/admin/manageProducts'}
+          onClick={() => navigate('/admin/manageProducts')}
         />
         <SidebarItem
           icon={Package}
           text="Products"
-          active={location.pathname === "/admin/manageOrders"}
-          onClick={() => navigate("/admin/manageOrders")}
+          active={location.pathname === '/admin/manageOrders'}
+          onClick={() => navigate('/admin/manageOrders')}
         />
-        
       </nav>
     </div>
   );

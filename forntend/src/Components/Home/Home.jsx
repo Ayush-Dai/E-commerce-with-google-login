@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 function Home() {
- 
-
   return (
-<>
-<h1>Hey dude welcome</h1>
-</>
-  )
+    <>
+      <h1>Hey dude welcome</h1>
+    </>
+  );
 }
 
-export default Home
+export default Home;
