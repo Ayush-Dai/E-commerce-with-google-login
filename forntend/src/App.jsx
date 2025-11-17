@@ -17,7 +17,7 @@ import OrderDet from './Components/Admin/Dashboard/ProductDet';
 import YoursOrder from './Components/Products/YoursOrder';
 
 function App() {
-  let sangam = 'Unused variable here';
+  // let sangam = 'Unused variable here';
   return (
     <>
       <Navbar />
