@@ -30,11 +30,11 @@ jobs:
         run: npm run lint -- --max-warnings=200
 
       - name: Install frontend deps
-        working-directory: client
+        working-directory: forntend
         run: npm ci
 
       - name: Lint frontend
-        working-directory: client
+        working-directory: forntend
         run: npm run lint -- --max-warnings=200
 
       - name: Build backend Docker image
