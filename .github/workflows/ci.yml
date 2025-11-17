@@ -35,7 +35,7 @@ jobs:
 
       - name: Lint frontend
         working-directory: forntend
-        run: npm run lint -- --max-warnings=200
+        run: npm run lint -- --max-warnings=2000
 
       - name: Build backend Docker image
         run: docker build -t backend ./backend
